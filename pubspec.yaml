@@ -1,25 +1,26 @@
 name: moviles
 description: A new Flutter project.
 version: 1.0.0+1
-environment: 
+environment:
   sdk: '>=2.12.0 <3.0.0'
-dependencies: 
-  flutter: 
+dependencies:
+  flutter:
     sdk: flutter
+  http: ^0.13.3
   cached_network_image: ^3.3.0
   flutter_svg: ^2.0.9
   intl: ^0.18.0
-dev_dependencies: 
-  flutter_test: 
+dev_dependencies:
+  flutter_test:
     sdk: flutter
-flutter: 
+flutter:
   uses-material-design: true
-  assets: 
+  assets:
     - assets/
     - assets/images/
-    -  assets/images/img_image_2.png
-  fonts: 
+    - assets/images/img_image_2.png
+  fonts:
     - family: Keania One
-      fonts: 
+      fonts:
         - asset: assets/fonts/KeaniaOneRegular.ttf
           weight: 400
