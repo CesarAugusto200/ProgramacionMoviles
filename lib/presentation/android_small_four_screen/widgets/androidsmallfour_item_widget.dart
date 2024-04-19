@@ -39,7 +39,7 @@ class AndroidsmallfourItemWidget extends StatelessWidget {
             width: 149.h,
             text: "Wacht".toUpperCase(),
             onPressed: () {
-              Navigator.pushNamed(context, AppRoutes.androidSmallSixScreen);
+              Navigator.pushNamed(context, AppRoutes.androidSmallFiveScreen);
             },
           ),
           SizedBox(height: 15.v),

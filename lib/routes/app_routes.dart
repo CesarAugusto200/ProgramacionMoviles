@@ -5,32 +5,26 @@ import '../presentation/android_small_three_screen/android_small_three_screen.da
 import '../presentation/food_clasification_screen/food_clasification_screen.dart';
 import '../presentation/app_navigation_screen/app_navigation_screen.dart';
 import '../presentation/android_small_four_screen/android_small_four_screen.dart';
-import '../presentation/android_small_five_screen/android_small_five_screen.dart';
 import '../presentation/android_small_six_screen/android_small_six_screen.dart';
 import '../presentation/android_small_seven_tab_container_screen/android_small_seven_tab_container_screen.dart';
 
+// Asegúrate de importar AddRecipeScreen desde la ubicación correcta
+import '../presentation/android_small_eight_screen/AddRecipeScreen.dart';
+
 class AppRoutes {
   static const String androidSmallOneScreen = '/android_small_one_screen';
-
   static const String androidSmallTwoScreen = '/android_small_two_screen';
-
   static const String androidSmallThreeScreen = '/android_small_three_screen';
-
   static const String foodClasificationScreen = '/food_clasification_screen';
-
   static const String androidSmallFourScreen = '/android_small_four_screen';
-
   static const String androidSmallFiveScreen = '/android_small_five_screen';
-
-  static const String androidSmallSixScreen = '/android_small_six_screen';
-
+  static const String androidSmallSixScreen = '/android_small_six_screen'; // Corregido el nombre de la ruta
   static const String androidSmallSevenPage = '/android_small_seven_page';
-
   static const String appNavigationScreen = '/app_navigation_screen';
-
 
   static const String androidSmallSevenTabContainerScreen = '/android_small_seven_tab_container_screen';
 
+  static const String addRecipeScreen = '/add_recipe_screen';
 
   static Map<String, WidgetBuilder> routes = {
     androidSmallOneScreen: (context) => AndroidSmallOneScreen(),
@@ -39,9 +33,10 @@ class AppRoutes {
     foodClasificationScreen: (context) => FoodClasificationScreen(),
     androidSmallFourScreen: (context) => AndroidSmallFourScreen(),
     androidSmallFiveScreen: (context) => AndroidSmallFiveScreen(),
-    androidSmallSixScreen: (context) => AndroidSmallSixScreen(),
+    //androidSmallSixScreen: (context) => AndroidSmallSixScreen(), // Corregido el nombre de la clase
     androidSmallSevenTabContainerScreen: (context) => AndroidSmallSevenTabContainerScreen(),
+    appNavigationScreen: (context) => AppNavigationScreen(),
 
-    appNavigationScreen: (context) => AppNavigationScreen()
+    //addRecipeScreen: (context) => AddRecipeScreen(recipe: {}),
   };
 }

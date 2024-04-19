@@ -1,15 +1,16 @@
-import 'package:moviles/widgets/custom_text_form_field.dart';
-import 'package:moviles/widgets/custom_outlined_button.dart';
+import 'dart:convert';
+
 import 'package:flutter/material.dart';
+import 'package:http/http.dart' as http;
 import 'package:moviles/core/app_export.dart';
-//Pagina del register
+import 'package:moviles/widgets/custom_text_form_field.dart';
+
 class AndroidSmallThreeScreen extends StatelessWidget {
   AndroidSmallThreeScreen({Key? key}) : super(key: key);
 
-  TextEditingController registerController = TextEditingController();
-  TextEditingController editTextController = TextEditingController();
-  TextEditingController editTextController1 = TextEditingController();
-  TextEditingController editTextController2 = TextEditingController();
+  TextEditingController nameController = TextEditingController();
+  TextEditingController emailController = TextEditingController();
+  TextEditingController passwordController = TextEditingController();
 
   @override
   Widget build(BuildContext context) {
@@ -23,39 +24,42 @@ class AndroidSmallThreeScreen extends StatelessWidget {
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
                 _buildTwelve(context),
-                SizedBox(height: 14.v),
+                SizedBox(height: 14),
                 Padding(
-                  padding: EdgeInsets.only(left: 155.h),
+                  padding: EdgeInsets.only(left: 20),
                   child: Text(
                     "User",
-                    style: theme.textTheme.bodyLarge,
+                    style: Theme.of(context).textTheme.bodyText1!.copyWith(color: Colors.black),
                   ),
                 ),
-                SizedBox(height: 12.v),
-                _buildEditText(context),
-                SizedBox(height: 11.v),
+                SizedBox(height: 12),
+                _buildEditText(context, nameController, "Name"),
+                SizedBox(height: 11),
                 Align(
                   alignment: Alignment.center,
                   child: Text(
                     "Correo",
-                    style: theme.textTheme.bodyLarge,
+                    style: Theme.of(context).textTheme.bodyText1!.copyWith(color: Colors.black),
                   ),
                 ),
-                SizedBox(height: 10.v),
-                _buildEditText1(context),
-                SizedBox(height: 11.v),
+                SizedBox(height: 10),
+                _buildEditText(context, emailController, "Email"),
+                SizedBox(height: 11),
                 Align(
                   alignment: Alignment.center,
                   child: Text(
                     "Password",
-                    style: theme.textTheme.bodyLarge,
+                    style: Theme.of(context).textTheme.bodyText1!.copyWith(color: Colors.black),
                   ),
                 ),
-                SizedBox(height: 10.v),
-                _buildEditText2(context),
-                SizedBox(height: 22.v),
-                _buildRegister1(context),
-                SizedBox(height: 5.v),
+                SizedBox(height: 10),
+                _buildEditText(context, passwordController, "Password"),
+                SizedBox(height: 22),
+                Align(
+                  alignment: Alignment.center,
+                  child: _buildRegisterButton(context),
+                ),
+                SizedBox(height: 5),
               ],
             ),
           ),
@@ -64,59 +68,53 @@ class AndroidSmallThreeScreen extends StatelessWidget {
     );
   }
 
-  /// Section Widget
-  Widget _buildRegister(BuildContext context) {
+  Widget _buildEditText(BuildContext context, TextEditingController controller, String hintText) {
     return Padding(
-      padding: EdgeInsets.only(left: 67.h),
+      padding: EdgeInsets.symmetric(horizontal: 20),
       child: CustomTextFormField(
-        width: 71.h,
-        controller: registerController,
-        hintText: "Register",
-        contentPadding: EdgeInsets.symmetric(horizontal: 1.h),
-        borderDecoration: TextFormFieldStyleHelper.underLineDeepOrangeA,
-        filled: false,
+        width: double.infinity,
+        controller: controller,
+        hintText: hintText,
+        hintStyle: TextStyle(color: Colors.black),
+        textStyle: TextStyle(color: Colors.black),
       ),
     );
   }
 
-  /// Section Widget
   Widget _buildTwelve(BuildContext context) {
     return SizedBox(
-      height: 306.v,
+      height: 306,
       width: double.maxFinite,
       child: Stack(
         alignment: Alignment.bottomCenter,
         children: [
           CustomImageView(
             imagePath: ImageConstant.imgRectangle2,
-            height: 306.v,
-            width: 360.h,
-            radius: BorderRadius.circular(
-              20.h,
-            ),
+            height: 306,
+            width: 360,
+            radius: BorderRadius.circular(20),
             alignment: Alignment.center,
           ),
           Align(
             alignment: Alignment.bottomCenter,
             child: Padding(
-              padding: EdgeInsets.only(bottom: 7.v),
+              padding: EdgeInsets.only(bottom: 7),
               child: Row(
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [
                   Padding(
-                    padding: EdgeInsets.only(bottom: 3.v),
+                    padding: EdgeInsets.only(right: 16),
                     child: InkWell(
                       onTap: () {
                         Navigator.pushNamed(context, AppRoutes.androidSmallTwoScreen);
                       },
-
                       child: Text(
                         "Login",
-                        style: theme.textTheme.bodyLarge,
+                        style: Theme.of(context).textTheme.bodyText1!.copyWith(color: Colors.black),
                       ),
                     ),
                   ),
-                  _buildRegister(context),
+                  _buildRegisterButton(context),
                 ],
               ),
             ),
@@ -126,49 +124,52 @@ class AndroidSmallThreeScreen extends StatelessWidget {
     );
   }
 
-  /// Section Widget
-  Widget _buildEditText(BuildContext context) {
-    return Padding(
-      padding: EdgeInsets.only(left: 85.h),
-      child: CustomTextFormField(
-        width: 178.h,
-        controller: editTextController,
-      ),
+  Widget _buildRegisterButton(BuildContext context) {
+    return ElevatedButton(
+      onPressed: () => _register(context),
+      child: Text("Register"),
     );
   }
 
-  /// Section Widget
-  Widget _buildEditText1(BuildContext context) {
-    return Padding(
-      padding: EdgeInsets.only(left: 85.h),
-      child: CustomTextFormField(
-        width: 178.h,
-        controller: editTextController1,
-      ),
-    );
-  }
-
-  /// Section Widget
-  Widget _buildEditText2(BuildContext context) {
-    return Padding(
-      padding: EdgeInsets.only(left: 85.h),
-      child: CustomTextFormField(
-        width: 178.h,
-        controller: editTextController2,
-        textInputAction: TextInputAction.done,
-      ),
-    );
-  }
-
-  /// Section Widget
-  Widget _buildRegister1(BuildContext context) {
-    return CustomOutlinedButton(
-      width: 202.h,
-      text: "Register",
-      margin: EdgeInsets.only(left: 73.h),
-      onPressed: () {
-        Navigator.pushNamed(context, AppRoutes.androidSmallTwoScreen);
-      },
-    );
+  void _register(BuildContext context) async {
+    var url = Uri.parse(
+        'https://orca-app-3cpmy.ondigitalocean.app/users'); // Asegúrate que la dirección es accesible
+    var headers = {
+      'Content-Type': 'application/json; charset=UTF-8',
+    };
+    var body = jsonEncode({
+      'name': nameController.text,
+      'email': emailController.text,
+      'password': passwordController.text,
+    });
+    print(nameController.text);
+    try {
+      var response = await http.post(url, headers: headers, body: body);
+      if (response.statusCode == 200) {
+        print('Response: ${response.body}');
+        ScaffoldMessenger.of(context).showSnackBar(
+          SnackBar(
+            content: Text('Registro exitoso'),
+            backgroundColor: Colors.green,
+          ),
+        );
+      } else {
+        print('Request failed with status: ${response.statusCode}');
+        ScaffoldMessenger.of(context).showSnackBar(
+          SnackBar(
+            content: Text('Error en el registro: ${response.statusCode}'),
+            backgroundColor: Colors.red,
+          ),
+        );
+      }
+    } catch (e) {
+      print('Error: $e');
+      ScaffoldMessenger.of(context).showSnackBar(
+        SnackBar(
+          content: Text('Error en el registro: $e'),
+          backgroundColor: Colors.red,
+        ),
+      );
+    }
   }
 }

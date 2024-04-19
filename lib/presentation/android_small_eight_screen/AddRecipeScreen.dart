@@ -60,6 +60,7 @@ class _AndroidSmallFiveScreenState extends State<AndroidSmallFiveScreen> {
         headers: {'Content-Type': 'application/json'},
       );
       if (response.statusCode == 201) {
+        // Después de agregar la receta con éxito, actualiza la lista de recetas
         fetchRecipes();
       } else {
         print('Failed to add recipe: ${response.statusCode}');
@@ -69,7 +70,7 @@ class _AndroidSmallFiveScreenState extends State<AndroidSmallFiveScreen> {
     }
   }
 
-  void _showAddRecipeForm() async {
+  void _showAddRecipeForm() {
     final GlobalKey<FormState> _formKey = GlobalKey<FormState>();
     final Map<String, String> formData = {
       'name': '',
@@ -79,62 +80,61 @@ class _AndroidSmallFiveScreenState extends State<AndroidSmallFiveScreen> {
       'difficulty': '',
     };
 
-    final newRecipeData = await showDialog<Map<String, String>>(
+    showDialog(
       context: context,
-      builder: (context) => AlertDialog(
-        title: Text('Agregar Nueva Receta'),
-        content: Form(
-          key: _formKey,
-          child: SingleChildScrollView(
-            child: ListBody(
-              children: <Widget>[
-                TextFormField(
-                  decoration: InputDecoration(labelText: 'Nombre de la receta'),
-                  validator: (value) => value!.isEmpty ? 'Este campo no puede estar vacío' : null,
-                  onSaved: (value) => formData['name'] = value!,
-                ),
-                TextFormField(
-                  decoration: InputDecoration(labelText: 'Nacionalidad'),
-                  onSaved: (value) => formData['nacionality'] = value!,
-                ),
-                TextFormField(
-                  decoration: InputDecoration(labelText: 'Ingredientes'),
-                  onSaved: (value) => formData['ingredients'] = value!,
-                ),
-                TextFormField(
-                  decoration: InputDecoration(labelText: 'Preparación'),
-                  onSaved: (value) => formData['preparation'] = value!,
-                ),
-                TextFormField(
-                  decoration: InputDecoration(labelText: 'Dificultad'),
-                  onSaved: (value) => formData['difficulty'] = value!,
-                ),
-              ],
+      builder: (BuildContext context) {
+        return AlertDialog(
+          title: Text('Agregar Nueva Receta'),
+          content: Form(
+            key: _formKey,
+            child: SingleChildScrollView(
+              child: ListBody(
+                children: <Widget>[
+                  TextFormField(
+                    decoration: InputDecoration(labelText: 'Nombre de la receta'),
+                    validator: (value) => value!.isEmpty ? 'Este campo no puede estar vacío' : null,
+                    onSaved: (value) => formData['name'] = value!,
+                  ),
+                  TextFormField(
+                    decoration: InputDecoration(labelText: 'Nacionalidad'),
+                    onSaved: (value) => formData['nacionality'] = value!,
+                  ),
+                  TextFormField(
+                    decoration: InputDecoration(labelText: 'Ingredientes'),
+                    onSaved: (value) => formData['ingredients'] = value!,
+                  ),
+                  TextFormField(
+                    decoration: InputDecoration(labelText: 'Preparación'),
+                    onSaved: (value) => formData['preparation'] = value!,
+                  ),
+                  TextFormField(
+                    decoration: InputDecoration(labelText: 'Dificultad'),
+                    onSaved: (value) => formData['difficulty'] = value!,
+                  ),
+                ],
+              ),
             ),
           ),
-        ),
-        actions: <Widget>[
-          TextButton(
-            child: Text('Cancelar'),
-            onPressed: () => Navigator.of(context).pop(),
-          ),
-          TextButton(
-            child: Text('Agregar'),
-            onPressed: () {
-              if (_formKey.currentState!.validate()) {
-                _formKey.currentState!.save();
-                addNewRecipe(formData);
-                Navigator.of(context).pop();
-              }
-            },
-          ),
-        ],
-      ),
+          actions: <Widget>[
+            TextButton(
+              child: Text('Cancelar'),
+              onPressed: () => Navigator.of(context).pop(),
+            ),
+            TextButton(
+              child: Text('Agregar'),
+              onPressed: () {
+                if (_formKey.currentState!.validate()) {
+                  _formKey.currentState!.save();
+                  // Agregar la nueva receta
+                  addNewRecipe(formData);
+                  Navigator.of(context).pop();
+                }
+              },
+            ),
+          ],
+        );
+      },
     );
-
-    if (newRecipeData != null) {
-      addNewRecipe(newRecipeData);
-    }
   }
 
   @override
@@ -146,7 +146,7 @@ class _AndroidSmallFiveScreenState extends State<AndroidSmallFiveScreen> {
           width: double.maxFinite,
           child: Column(
             children: [
-              SizedBox(height: 10),
+              SizedBox(height: 10), // Asegúrate de definir 'v' en tus extensiones
               Expanded(
                 child: ListView.builder(
                   itemCount: recipes.length,
@@ -181,7 +181,7 @@ class RecipeCard extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final theme = Theme.of(context);
-    final recipeId = recipe['id'].toString();
+    final recipeId = recipe['id'].toString(); // Asegúrate de que 'id' es la clave correcta.
 
     return Card(
       elevation: 4.0,
@@ -214,7 +214,7 @@ class RecipeCard extends StatelessWidget {
               style: theme.textTheme.subtitle1,
             ),
             Row(
-              mainAxisAlignment: MainAxisAlignment.end,
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
                 IconButton(
                   icon: Icon(Icons.delete, color: Colors.red),
